@@ -1,13 +1,40 @@
 import sys
 import os
 import json
+import subprocess
+import platform
 from colorama import Fore, init
 from pexpect import pxssh
 from scapy.all import *
 
 init(autoreset=True)
 
+# ASCII art banner
+BANNER = '''
+███████╗███████╗██╗  ██╗    ██████╗  ██████╗ ████████╗███╗   ██╗███████╗████████╗
+██╔════╝██╔════╝██║  ██║    ██╔══██╗██╔═══██╗╚══██╔══╝████╗  ██║██╔════╝╚══██╔══╝
+███████╗███████╗███████║    ██████╔╝██║   ██║   ██║   ██╔██╗ ██║█████╗     ██║   
+╚════██║╚════██║██╔══██║    ██╔══██╗██║   ██║   ██║   ██║╚██╗██║██╔══╝     ██║   
+███████║███████║██║  ██║    ██████╔╝╚██████╔╝   ██║   ██║ ╚████║███████╗   ██║   
+╚══════╝╚══════╝╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝   ╚═╝  ╚═══╝╚══════╝   ╚═╝   
+                                                                                
+    [+] M101 SSH Botnet Framework [+]                                            
+    [+] For Educational Purposes Only [+]                                        
+    [+] Use Responsibly [+]                                                      
+    [+] Created by iDOR [+]                                                      
+                                                                                
+    01010011 01010011 01001000 01011111 01000010 01001111 01010100 01001110 01000101 01010100
+'''
+
+# Function to display banner
+def display_banner():
+    print(Fore.GREEN + BANNER)
+
+# Clear the screen
 os.system('clear')
+
+# Display the banner when the script runs
+display_banner()
 
 # Function to display menu
 def display_menu():
@@ -22,12 +49,37 @@ def display_menu():
 # Connect to SSH server
 def connect_ssh(host, port, user, password):
     try:
+        print(Fore.YELLOW + f"[*] Attempting SSH login to {host}:{port}...")
         s = pxssh.pxssh()
-        s.login(host, user, password, port=port)
+        s.PROMPT = r"[#$>]"
+        
+        if int(port) != 22:
+            # Use ssh_options for custom port
+            s.login(host, user, password, login_timeout=10, auto_prompt_reset=False, ssh_options={"-p": str(port)})
+        else:
+            # Standard port 22
+            s.login(host, user, password, login_timeout=10, auto_prompt_reset=False)
+        
+        print(Fore.GREEN + f"[+] Successfully connected to {host}:{port}")
         return s
+    except pxssh.ExceptionPxssh as e:
+        print(Fore.RED + f"[!] SSH connection failed to {host}:{port}")
+        if "could not synchronize with original prompt" in str(e).lower():
+            print(Fore.RED + "[!] Error: Could not synchronize with shell prompt")
+        elif "permission denied" in str(e).lower():
+            print(Fore.RED + "[!] Error: Invalid username or password")
+        elif "connection refused" in str(e).lower():
+            print(Fore.RED + "[!] Error: Connection refused - SSH service may not be running")
+        elif "no route to host" in str(e).lower():
+            print(Fore.RED + "[!] Error: No route to host - check IP address and network connectivity")
+        elif "timeout" in str(e).lower():
+            print(Fore.RED + "[!] Error: Connection timeout - host may be unreachable")
+        else:
+            print(Fore.RED + f"[!] SSH Error: {str(e)}")
+        return None
     except Exception as e:
-        print(Fore.RED + f"[!] Error connecting to {host}")
-        print(e)
+        print(Fore.RED + f"[!] Unexpected error connecting to {host}:{port}")
+        print(Fore.RED + f"[!] Error details: {str(e)}")
         return None
 
 # Sending a command to execute

@@ -83,8 +83,6 @@ The bot will be automatically saved to `botnet.json` for future sessions.
 
 Select option 2 from the main menu and enter the command you wish to execute on all bots. The output from each bot will be displayed with the corresponding host information.
 
-![Command Execution Screenshot](screenshots/command_execution.png)
-*Screenshot: Executing commands across multiple bots*
 
 ### DDoS Attack
 
