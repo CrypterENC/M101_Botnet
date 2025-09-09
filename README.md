@@ -49,6 +49,9 @@ Run the script:
 python ssh_botnet.py
 ```
 
+![Main Menu Screenshot](screenshots/main_menu.png)
+*Screenshot: Main menu interface of the SSH Botnet*
+
 ### Main Menu Options
 
 1. **List Bots** - Display all connected bots in the botnet
@@ -59,6 +62,9 @@ python ssh_botnet.py
 6. **Stop DDOS** - Stop any ongoing DDoS attacks
 7. **Exit** - Save the botnet configuration and exit the program
 
+![Bot List Screenshot](screenshots/bot_list.png)
+*Screenshot: Listing connected bots in the botnet*
+
 ### Adding Bots
 
 To add a new bot to your botnet:
@@ -68,11 +74,17 @@ To add a new bot to your botnet:
 4. Enter the username
 5. Enter the password
 
+![Adding Bot Screenshot](screenshots/add_bot.png)
+*Screenshot: Adding a new bot to the botnet*
+
 The bot will be automatically saved to `botnet.json` for future sessions.
 
 ### Running Commands
 
 Select option 2 from the main menu and enter the command you wish to execute on all bots. The output from each bot will be displayed with the corresponding host information.
+
+![Command Execution Screenshot](screenshots/command_execution.png)
+*Screenshot: Executing commands across multiple bots*
 
 ### DDoS Attack
 
@@ -82,7 +94,13 @@ The DDoS functionality creates a TCP flood attack against a specified target:
 3. Enter the target port (default: 80)
 4. Enter the attack duration in seconds (default: 60)
 
+![DDoS Attack Screenshot](screenshots/ddos_attack.png)
+*Screenshot: Configuring and launching a DDoS attack*
+
 To stop an ongoing attack, select option 6 from the main menu.
+
+![Stop DDoS Screenshot](screenshots/stop_ddos.png)
+*Screenshot: Stopping an ongoing DDoS attack*
 
 ## 📁 File Structure
 
@@ -97,6 +115,16 @@ The botnet configuration is automatically saved to `botnet.json` when:
 - Exiting the program
 
 When the script is started, it automatically attempts to load and reconnect to all bots from the saved configuration.
+
+## 📸 Screenshots
+
+Here are additional screenshots showing various features of the SSH Botnet tool:
+
+![Bash Mode Screenshot](screenshots/bash_mode.png)
+*Screenshot: Interactive bash mode across multiple bots*
+
+![Botnet JSON Screenshot](screenshots/botnet_json.png)
+*Screenshot: Example of the botnet.json configuration file*
 
 ## 🛡️ Security Considerations
 
